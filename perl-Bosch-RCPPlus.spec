@@ -6,7 +6,7 @@
 %define real_name Bosch-RCPPlus
 
 Name: perl-%{real_name}
-Version: 1.0
+Version: 1.1
 Release: tws%{?dist}
 Summary: Bosch::RCPPlus Perl 5 implementation of the Bosch RCP+ remote procedure call.
 Group: Applications/CPAN
@@ -56,4 +56,5 @@ find %{buildroot} -name .packlist -exec %{__rm} {} \;
 %{perl_vendorlib}/Bosch/RCPPlus/Commands.pm
 %{perl_vendorlib}/Bosch/RCPPlus/Response.pm
 %{perl_vendorlib}/Bosch/RCPPlus/AuthError.pm
+%{perl_vendorlib}/Bosch/RCPPlus/Utils.pm
 
