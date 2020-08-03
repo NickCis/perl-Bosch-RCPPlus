@@ -1,0 +1,7 @@
+lib/Bosch/RCPPlus.pm
+lib/Bosch/RCPPlus/Commands.pm
+lib/Bosch/RCPPlus/AuthError.pm
+lib/Bosch/RCPPlus/Response.pm
+MANIFEST
+README.md
+LICENSE.md
