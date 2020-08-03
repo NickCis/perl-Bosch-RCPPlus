@@ -8,6 +8,8 @@ use Getopt::Long;
 use Bosch::RCPPlus;
 use Bosch::RCPPlus::Commands;
 
+use Data::Dumper;
+
 sub usage {
 	print "$0 <options> <cmd> <scene>\n";
 	print "\n";
@@ -49,7 +51,7 @@ sub main
 		return -1;
 	}
 
-	unless ($scene) {
+	if ($action ne 'list' and not $scene) {
 		print "No scene\n";
 		usage();
 		return -1;
@@ -62,6 +64,18 @@ sub main
 	);
 
 	switch: for ($action) {
+		/list$/ && do {
+			print "Scenes: ";
+
+			my $as = $client->cmd(Bosch::RCPPlus::Commands::available_scenes());
+			if ($as->error) {
+				print "available_scenes failed\n";
+				return -1;
+			}
+
+			print Dumper($as->result) . "\n";
+			return 0;
+		};
 		/^check$/ && do {
 			print "Scene: $scene ";
 

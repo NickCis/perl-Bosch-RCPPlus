@@ -2,11 +2,13 @@ package Bosch::RCPPlus::Commands;
 use strict;
 
 use POSIX qw(floor);
+use Bosch::RCPPlus::Utils qw(bytes2int);
 
 our %Type = (
 	flag => 'F_FLAG',
 	unicode => 'P_UNICODE',
 	octect => 'P_OCTET',
+	word => 'T_DWORD',
 );
 
 our %Direction = (
@@ -261,6 +263,83 @@ sub show_scene
 		type => $Type{octect},
 		payload => '0x80' . '0006' . $bitcom_obj_id . '81',
 		idstring => 'setScene' . $preset,
+	);
+}
+
+
+##*
+# This command is used on the UI to check AUTH
+# (aparently there are different users levels)
+#
+sub one
+{
+	my ($num) = @_;
+
+	return (
+		num => $num || 1,
+		direction => $Direction{read},
+		command => '0x0001',
+		type => $Type{word},
+	);
+}
+
+##*
+#
+# See code from Js UI:
+# - PresetSupport::getAvailableScenes
+#
+sub available_scenes
+{
+	my ($num) = @_;
+
+	return (
+		num => $num || 1,
+		direction => $Direction{write},
+		command => '0x09A5',
+		type => $Type{octect},
+		payload => '0x85' . '0006' . '2000' . '84',
+		idstring => 'availableScenes',
+		format => sub {
+			my @payload = @{(shift)};
+
+			# payload.splice(1, 6) //leasetime
+			splice @payload, 1, 6 if (($payload[0] & 0x08) > 0);
+
+			if ($payload[5] == 0x6f) {
+				# payload.splice(0, 6);
+				# ERROR
+				# return error;
+				return undef;
+			}
+
+			splice @payload, 0, 6;
+
+			# Implemented for 0x84 bitcom action (might be used for 0x82 too)
+			my $is82 = 0;
+			my @b;
+			my @available;
+			my $l = $is82 ? 16 : 32;
+
+			if ((scalar @payload) >= $l) {
+				my $length = $is82 ? 4 : 8;
+				for (my $i = 0; $i < $length; $i++) {
+					my @current = @payload[($i * 4) .. ($i * 4 + 3)];
+
+					$b[$i] = bytes2int(\@current, 1);
+					my $offset = ($is82 && $i == 0) ? 1 : 0; # 1st bit of 1st byte is never set for bicom action 82
+
+					for (my $j = 0; ($j + $offset) < 32; $j++) {
+						if ($b[$i] & (1 << ($j + $offset))) {
+							my $idx = ($i * 32) + $j;
+							$idx++ if (!$is82 || $i == 0);
+							push @available, $idx;
+						}
+					}
+				}
+			}
+
+			return \@available;
+		},
 	);
 }
 

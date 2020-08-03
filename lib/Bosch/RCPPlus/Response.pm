@@ -71,6 +71,10 @@ sub result
 			last;
 		};
 
+		/^T_DWORD$/ && do {
+			$ret = int($proto->{xml}->findvalue('/rcp/result/dec'));
+		};
+
 		croak("Unknown type $_");
 		last;
 	}
