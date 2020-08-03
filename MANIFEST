@@ -5,3 +5,4 @@ lib/Bosch/RCPPlus/Response.pm
 MANIFEST
 README.md
 LICENSE.md
+Makefile.PL

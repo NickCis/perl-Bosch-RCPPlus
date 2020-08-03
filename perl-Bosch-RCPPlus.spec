@@ -3,17 +3,17 @@
 %define perl_vendorlib %(eval "`%{__perl} -V:installvendorlib`"; echo $installvendorlib)
 %define perl_vendorarch %(eval "`%{__perl} -V:installvendorarch`"; echo $installvendorarch)
 
-%define real_name Net-IPA
+%define real_name Bosch-RCPPlus
 
 Name: perl-%{real_name}
-Version: 1.4
+Version: 1.0
 Release: tws%{?dist}
 Summary: Bosch::RCPPlus Perl 5 implementation of the Bosch RCP+ remote procedure call.
 Group: Applications/CPAN
 License: GNU/GPL v3
 URL: https://github.com/NickCis/perl-Bosch-RCPPlus
 
-Source: https://github.com/NickCis/perl-Bosch-RCPPlus/archive/v%{version}.tar.gz
+Source: https://github.com/NickCis/%{name}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{_release}-root-%(%{__id_u} -n)
 
 BuildArch: noarch
@@ -31,9 +31,12 @@ Requires: perl(LWP::UserAgent)
 Perl 5 implementation of the Bosch RCP+ remote procedure call.
 
 %prep
+echo prep
 %setup -n %{name}-%{version}
+echo setup
 
 %build
+echo build
 %{__perl} Makefile.PL INSTALLDIRS="vendor" PREFIX="%{buildroot}%{_prefix}"
 %{__make} %{?_smp_mflags}
 

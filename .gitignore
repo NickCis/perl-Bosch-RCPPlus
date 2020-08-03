@@ -1,1 +1,7 @@
 *.sw*
+Makefile
+blib/
+pm_to_blib
+perl-Bosch-RCPPlus-*.*.tar.gz
+Makefile
+Makefile.old
