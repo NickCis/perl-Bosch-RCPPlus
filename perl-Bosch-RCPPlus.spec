@@ -6,14 +6,14 @@
 %define real_name Bosch-RCPPlus
 
 Name: perl-%{real_name}
-Version: 1.1
+Version: 1.2
 Release: tws%{?dist}
 Summary: Bosch::RCPPlus Perl 5 implementation of the Bosch RCP+ remote procedure call.
 Group: Applications/CPAN
 License: GNU/GPL v3
 URL: https://github.com/NickCis/perl-Bosch-RCPPlus
 
-Source: https://github.com/NickCis/%{name}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Source: %{real_name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{_release}-root-%(%{__id_u} -n)
 
 BuildArch: noarch
@@ -32,7 +32,7 @@ Perl 5 implementation of the Bosch RCP+ remote procedure call.
 
 %prep
 echo prep
-%setup -n %{name}-%{version}
+%setup -n %{real_name}-%{version}
 echo setup
 
 %build

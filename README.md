@@ -45,6 +45,6 @@ perl-Bosch-RCPPlus-1.0/MANIFEST
 perl-Bosch-RCPPlus-1.0/Makefile.PL
 rm -rf perl-Bosch-RCPPlus-1.0
 gzip --best perl-Bosch-RCPPlus-1.0.tar
-$ cp perl-Bosch-RCPPlus-*.*.tar.gz ~/rpmbuild/SOURCES
+$ cp Bosch-RCPPlus-*.*.tar.gz ~/rpmbuild/SOURCES
 $ rpmbuild -ba perl-Bosch-RCPPlus.spec
 ```
